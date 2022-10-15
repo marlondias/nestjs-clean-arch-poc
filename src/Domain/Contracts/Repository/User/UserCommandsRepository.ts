@@ -15,5 +15,5 @@ export default interface UserCommandsRepository {
   /**
    * @throws Error
    */
-  deleteById(id: string | number): Promise<void>;
+  deleteById(id: number): Promise<void>;
 }

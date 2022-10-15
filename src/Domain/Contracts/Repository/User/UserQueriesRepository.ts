@@ -2,7 +2,18 @@ import User from 'src/Domain/Entities/User';
 import EmailAddress from 'src/Domain/ValueObjects/EmailAddress';
 
 export default interface UserQueriesRepository {
-  findById(id: string | number): User;
-  findByEmail(emailAddress: EmailAddress): User;
-  getAll(): Array<User>;
+  /**
+   * @throws EntityNotFoundException
+   */
+  findById(id: number): Promise<User>;
+
+  /**
+   * @throws EntityNotFoundException
+   */
+  findByEmail(emailAddress: EmailAddress): Promise<User>;
+
+  /**
+   * @throws Error
+   */
+  getAll(): Promise<User[]>;
 }

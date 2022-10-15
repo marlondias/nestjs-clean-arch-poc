@@ -1,7 +1,19 @@
 import User from 'src/Domain/Entities/User';
+import EntityNotFoundException from 'src/Domain/Exceptions/EntityNotFoundException';
 
 export default interface UserCommandsRepository {
-  insert(user: User): void;
-  update(user: User): void;
-  deleteById(id: string | number): void;
+  /**
+   * @throws Error
+   */
+  insert(user: User): Promise<void>;
+
+  /**
+   * @throws Error
+   */
+  update(user: User): Promise<void>;
+
+  /**
+   * @throws Error
+   */
+  deleteById(id: string | number): Promise<void>;
 }

@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
+export default class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,8 +23,6 @@ export class User {
   @Column()
   password: string;
 
-  // @Column()
-  // remember_token: string;
 
   @CreateDateColumn()
   created_at: boolean;

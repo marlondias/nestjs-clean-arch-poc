@@ -23,10 +23,9 @@ export default class User {
   @Column()
   password: string;
 
-
   @CreateDateColumn()
-  created_at: boolean;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: boolean;
+  updated_at: Date;
 }

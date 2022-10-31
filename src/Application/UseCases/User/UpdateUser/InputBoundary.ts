@@ -2,10 +2,10 @@ import UseCaseInputBoundary from 'src/Application/Contracts/UseCaseInputBoundary
 
 export default class InputBoundary implements UseCaseInputBoundary {
   private userId: number;
-  private firstName: string;
-  private lastName: string;
-  private emailAddress: string;
-  private password: string;
+  private firstName: string | null;
+  private lastName: string | null;
+  private emailAddress: string | null;
+  private password: string | null;
 
   constructor(userId: number, changedAttributes: Map<string, string>) {
     this.userId = userId;
@@ -42,19 +42,19 @@ export default class InputBoundary implements UseCaseInputBoundary {
     return this.userId;
   }
 
-  getFirstName(): string {
+  getFirstName(): string | null {
     return this.firstName;
   }
 
-  getLastName(): string {
+  getLastName(): string | null {
     return this.lastName;
   }
 
-  getEmailAddress(): string {
+  getEmailAddress(): string | null {
     return this.emailAddress;
   }
 
-  getPassword(): string {
+  getPassword(): string | null {
     return this.password;
   }
 }

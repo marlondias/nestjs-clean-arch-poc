@@ -10,7 +10,7 @@ export default class UpdateUserUseCase {
   private userQueriesRepository: UserQueriesRepository;
   private stringHashingService: StringHashingService;
 
-  public UpdateUserUseCase(
+  constructor(
     userCommandsRepository: UserCommandsRepository,
     userQueriesRepository: UserQueriesRepository,
     stringHashingService: StringHashingService,

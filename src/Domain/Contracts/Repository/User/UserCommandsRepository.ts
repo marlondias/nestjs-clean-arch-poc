@@ -1,5 +1,4 @@
 import User from 'src/Domain/Entities/User';
-import EntityNotFoundException from 'src/Domain/Exceptions/EntityNotFoundException';
 
 export default interface UserCommandsRepository {
   /**

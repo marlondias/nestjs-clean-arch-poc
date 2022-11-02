@@ -4,8 +4,6 @@ import { UsersController } from 'src/Adapters/Http/Controllers/UsersController';
 import UserRepositoryImpl from 'src/Adapters/Repositories/UserRepositoryImpl';
 import StringHashingServiceImpl from 'src/Adapters/Services/StringHashingServiceImpl';
 import { User } from 'typeORM/entities/User';
-//import { AppController } from './app.controller';
-//import { AppService } from './app.service';
 
 @Module({
   imports: [

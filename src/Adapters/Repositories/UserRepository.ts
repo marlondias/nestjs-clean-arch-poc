@@ -3,7 +3,7 @@ import UserQueriesRepository from 'src/Domain/Contracts/Repository/User/UserQuer
 import User from 'src/Domain/Entities/User';
 import EmailAddress from 'src/Domain/ValueObjects/EmailAddress';
 import { DataSource } from 'typeorm';
-import UserOrm from 'typeORM/entities/User';
+import { User as UserOrm } from 'typeORM/entities/User';
 
 class UserRepository implements UserCommandsRepository, UserQueriesRepository {
   private dataSource: DataSource;

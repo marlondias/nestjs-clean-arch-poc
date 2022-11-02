@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersController } from 'src/Adapters/Http/Controllers/UsersController';
+import UserRepositoryImpl from 'src/Adapters/Repositories/UserRepositoryImpl';
+import StringHashingServiceImpl from 'src/Adapters/Services/StringHashingServiceImpl';
 import { User } from 'typeORM/entities/User';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+//import { AppController } from './app.controller';
+//import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -17,7 +20,20 @@ import { AppService } from './app.service';
       synchronize: false,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [UsersController],
+  providers: [
+    {
+      provide: 'UserCommandsRepository',
+      useClass: UserRepositoryImpl,
+    },
+    {
+      provide: 'UserQueriesRepository',
+      useClass: UserRepositoryImpl,
+    },
+    {
+      provide: 'StringHashingService',
+      useClass: StringHashingServiceImpl,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import UserCommandsRepository from 'src/Domain/Contracts/Repository/User/UserCommandsRepository';
 import UserQueriesRepository from 'src/Domain/Contracts/Repository/User/UserQueriesRepository';
 import StringHashingService from 'src/Domain/Contracts/Services/StringHashingService';
+import User from 'src/Domain/Entities/User';
 import InputBoundary from './InputBoundary';
 import OutputBoundary from './OutputBoundary';
 

@@ -1,11 +1,15 @@
+import { DataSource } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import UserCommandsRepository from 'src/Domain/Contracts/Repository/User/UserCommandsRepository';
 import UserQueriesRepository from 'src/Domain/Contracts/Repository/User/UserQueriesRepository';
 import User from 'src/Domain/Entities/User';
 import EmailAddress from 'src/Domain/ValueObjects/EmailAddress';
-import { DataSource } from 'typeorm';
 import { User as UserOrm } from 'typeORM/entities/User';
 
-class UserRepository implements UserCommandsRepository, UserQueriesRepository {
+@Injectable()
+export default class UserRepositoryImpl
+  implements UserCommandsRepository, UserQueriesRepository
+{
   private dataSource: DataSource;
 
   constructor(dataSource: DataSource) {

@@ -9,8 +9,8 @@ export default class DeleteUserUseCase {
     this.userCommandsRepository = userCommandsRepository;
   }
 
-  handle(input: InputBoundary): OutputBoundary {
-    this.userCommandsRepository.deleteById(input.getUserId());
+  async handle(input: InputBoundary): Promise<OutputBoundary> {
+    await this.userCommandsRepository.deleteById(input.getUserId());
     return new OutputBoundary(`Usuário ${input.getUserId()} foi deletado!`);
   }
 }

@@ -21,6 +21,7 @@ import UpdateUserUseCase from 'src/Application/UseCases/User/UpdateUser/UpdateUs
 import UserCommandsRepository from 'src/Domain/Contracts/Repository/User/UserCommandsRepository';
 import UserQueriesRepository from 'src/Domain/Contracts/Repository/User/UserQueriesRepository';
 import StringHashingService from 'src/Domain/Contracts/Services/StringHashingService';
+import { map } from 'rxjs';
 
 class CreateUserDTO {
   firstName: string;
@@ -58,23 +59,35 @@ export class UsersController {
   @Get()
   async list(): Promise<any> {
     const useCase = new GetAllUsersUseCase(this.userQueriesRepository);
-    const response = new Map<string, any>();
-    const input = new GetAllUsersInputBoundary();
-    const output = await useCase.handle(input);
-    response.set('message', output.getMessage());
-    response.set('data', output.toMap());
-    return Object.fromEntries(response);
+    try {
+      const input = new GetAllUsersInputBoundary();
+      const output = await useCase.handle(input);
+      return {
+        message: output.getMessage(),
+        data: this.mapToPlainObject(output.toMap()),
+      };
+    } catch (error) {
+      return {
+        error: error.message,
+      };
+    }
   }
 
   @Get(':id')
   async show(@Param('id') id: string): Promise<any> {
     const useCase = new GetUserUseCase(this.userQueriesRepository);
-    const response = new Map<string, any>();
-    const input = new GetUserInputBoundary(Number.parseInt(id));
-    const output = await useCase.handle(input);
-    response.set('message', output.getMessage());
-    response.set('data', output.toMap());
-    return response;
+    try {
+      const input = new GetUserInputBoundary(Number.parseInt(id));
+      const output = await useCase.handle(input);
+      return {
+        message: output.getMessage(),
+        data: this.mapToPlainObject(output.toMap()),
+      };
+    } catch (error) {
+      return {
+        error: error.message,
+      };
+    }
   }
 
   @Post()
@@ -84,7 +97,6 @@ export class UsersController {
       this.userQueriesRepository,
       this.stringHashingService,
     );
-    const response = new Map<string, any>();
     try {
       const input = new CreateUserInputBoundary(
         requestBody.firstName,
@@ -93,11 +105,14 @@ export class UsersController {
         requestBody.password,
       );
       const output = await useCase.handle(input);
-      response.set('message', output.getMessage());
+      return {
+        message: output.getMessage(),
+      };
     } catch (error) {
-      response.set('error', error.message);
+      return {
+        error: error.message,
+      };
     }
-    return response;
   }
 
   @Put(':id')
@@ -110,27 +125,51 @@ export class UsersController {
       this.userQueriesRepository,
       this.stringHashingService,
     );
-    const response = new Map<string, any>();
     try {
       const input = new UpdateUserInputBoundary(
         Number.parseInt(id),
         requestBody.propsToMap(),
       );
       const output = await useCase.handle(input);
-      response.set('message', output.getMessage());
+      return {
+        message: output.getMessage(),
+      };
     } catch (error) {
-      response.set('error', error.message);
+      return {
+        error: error.message,
+      };
     }
-    return response;
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<any> {
+  async delete(@Param('id') id: string) {
     const useCase = new DeleteUserUseCase(this.userCommandsRepository);
-    const response = new Map<string, any>();
-    const input = new DeleteUserInputBoundary(Number.parseInt(id));
-    const output = await useCase.handle(input);
-    response.set('message', output.getMessage());
-    return response;
+    try {
+      const input = new DeleteUserInputBoundary(Number.parseInt(id));
+      const output = await useCase.handle(input);
+      return {
+        message: output.getMessage(),
+      };
+    } catch (error) {
+      return {
+        error: error.message,
+      };
+    }
+  }
+
+  private mapToPlainObject(value: any): Record<string, any> {
+    if (value instanceof Array) {
+      return value.map((arrItem) => {
+        return this.mapToPlainObject(arrItem);
+      });
+    }
+    if (value instanceof Map) {
+      const obj = {};
+      value.forEach((mapValue, mapKey) => {
+        obj[mapKey] = this.mapToPlainObject(mapValue);
+      });
+      return obj;
+    }
+    return value;
   }
 }
